@@ -7,7 +7,7 @@ public class SmartThermostat extends SmartDevice implements Adjustable {
 
     @Override
     void performSelfDiagnostic() {
-
+        System.out.println("Check Thermostat health..."); // Arbitrary print statement for checking polymorphism
     }
 
     @Override
