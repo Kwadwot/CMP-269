@@ -4,11 +4,11 @@ class Main {
 
     public static void main(String[] args){
         // Polymorphism in Action Test:
-        ArrayList<Payable> pay = new ArrayList<>();
-        pay.add(new CreditCard("KPT", 5000, 10000));
-        pay.add(new MealPlan("KT", 300));
+        ArrayList<Payable> paymentQueue = new ArrayList<>();
+        paymentQueue.add(new CreditCard("KPT", 5000, 10000));
+        paymentQueue.add(new MealPlan("KT", 300));
 
-        for (Payable p: pay){
+        for (Payable p: paymentQueue){
             p.processPament(50.0);
         }
 
