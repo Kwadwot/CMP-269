@@ -1,0 +1,4 @@
+Student: Jonathan_Joestar | Average: 84.33
+Student: Joseph_Joestar | Average: 72.33
+Student: Jotaro_Kujo | Average: 95.33
+Student: Jolyne_Cujoh | Average: 49.67 | Warning: low grade
