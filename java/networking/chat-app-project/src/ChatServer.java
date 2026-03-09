@@ -43,12 +43,12 @@ public class ChatServer {
                 System.out.println("Client " + socket.getRemoteSocketAddress() + " set username to: " + username);
 
                 // Broadcast to all clients that a new user has joined the chat
-                broadcastMessage("SERVER: " + username + " has joined the chat!");
+                broadcastMessage("SERVER: " + username + " has joined the chat!", null);
 
                 String message;
 
                 while ((message = reader.readLine()) != null) {
-                    broadcastMessage(username + ": " + message);
+                    broadcastMessage(username + ": " + message, writer);
                 }
 
             } catch (IOException e) {
@@ -56,11 +56,12 @@ public class ChatServer {
             }
             finally {
                 try {
-                    if (reader != null) writer.close();
+                    clientWriters.remove(writer); // remove writer after exiting
+                    if (reader != null) reader.close();
                     if (writer != null) writer.close();
                     if (socket != null) socket.close();
                     if (username != null) {
-                        broadcastMessage("SERVER: " + username + " has left the chat!");
+                        broadcastMessage("SERVER: " + username + " has left the chat!", null);
                     }
                 } catch (IOException e) {
                     System.out.println("Error closing client resources: " + e.getMessage());
@@ -68,10 +69,21 @@ public class ChatServer {
             }
         }
 
-        private void broadcastMessage(String message) {
+//        private void broadcastMessage(String message) {
+//            synchronized (clientWriters) {
+//                for (PrintWriter writer : clientWriters) {
+//                    writer.println(message);
+//                }
+//            }
+//        }
+
+        // For broadcasting to client except sender. Can set excludedWriter to null for total broadcast
+        private void broadcastMessage(String message, PrintWriter excludedWriter) {
             synchronized (clientWriters) {
                 for (PrintWriter writer : clientWriters) {
-                    writer.println(message);
+
+                    if (writer != excludedWriter)
+                        writer.println(message);
                 }
             }
         }

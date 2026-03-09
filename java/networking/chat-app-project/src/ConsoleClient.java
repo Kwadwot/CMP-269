@@ -60,6 +60,9 @@ public class ConsoleClient {
 
             while (scanner.hasNextLine()) {
                 String message = scanner.nextLine();
+                if (message.equals("QUIT")) {
+                    System.exit(0);
+                }
                 writer.println(message);
             }
 
@@ -68,13 +71,12 @@ public class ConsoleClient {
             System.out.println("Could not connect to the server: " + e.getMessage());
 
         } finally{
-            if (socket != null) {
-
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    System.out.println("Could not close the socket: " + e.getMessage());
-                }
+            try {
+                if (writer != null) writer.close();
+                if (reader != null) reader.close();
+                if (socket != null && !socket.isClosed()) socket.close();
+            } catch (IOException e) {
+                System.out.println("Error while closing the connection to the server: " + e.getMessage());
             }
         }
     }

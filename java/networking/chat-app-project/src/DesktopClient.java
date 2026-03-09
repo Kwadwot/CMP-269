@@ -91,7 +91,7 @@ public class DesktopClient extends Application {
 
         // Parse and store connection details
         serverAddress = ipField.getText().trim();
-        username = usernameField.getText().trim();
+        username = usernameField.getText().trim(); // Currently gets overridden when the server asks for username
 
         try {
             port = Integer.parseInt(portField.getText().trim());
@@ -175,10 +175,14 @@ public class DesktopClient extends Application {
         String message = inputField.getText();
 
         if (!message.isBlank()) {
+            if (message.equals("QUIT")) {
+                cleanup();
+                Platform.exit();
+                return;
+            }
+
             chatArea.appendText("Me: " + message + "\n");
-
             writer.println(message);
-
             inputField.clear();
         }
     }
